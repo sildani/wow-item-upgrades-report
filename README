@@ -1,0 +1,15 @@
+The scripts in the scripts directory grab World of Warcraft (WoW) Armory data and generate a CSV formatted report of the upgrade status of the items for a given list of players.
+
+Create a data directory and create a file named "data/raiders.txt" with a list of players to check.
+
+Then to get the data, run:
+
+ruby scripts/get_data.rb
+
+To then generate the report from the data, create a directory named "output" then run:
+
+ruby scripts/gen_report.rb
+
+You must get the data before you can generate a report.
+
+Send questions to @danielsweb.
