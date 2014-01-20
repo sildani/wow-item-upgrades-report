@@ -60,7 +60,7 @@ slots = [
 lineNum = 1
 data = {}
 
-data[lineNum] = ['','iLvl']
+data[lineNum] = ['','Class','Spec','Rank','ILvl']
 slots.each {|s| data[lineNum] << s.capitalize}
 
 characters.each do |charName, char|
@@ -68,23 +68,24 @@ characters.each do |charName, char|
   lineNum += 1
   data[lineNum] = [charName]
 
-  json = char['json']
-
-  data[lineNum] << json['items']['averageItemLevelEquipped']
+  data[lineNum] << 'TBD'
+  data[lineNum] << 'TBD'
+  data[lineNum] << char['rank']
+  data[lineNum] << char['json']['items']['averageItemLevelEquipped']
 
   slots.each do |slot|
-    if (json['items'][slot].nil?)
+    if (char['json']['items'][slot].nil?)
       data[lineNum] << 'n/a'
     else
-      if (json['items'][slot]['tooltipParams']['upgrade'].nil?)
+      if (char['json']['items'][slot]['tooltipParams']['upgrade'].nil?)
         data[lineNum] << 'pvp'
       else
-        currLevel = json['items'][slot]['tooltipParams']['upgrade']['current']
-        maxLevel = json['items'][slot]['tooltipParams']['upgrade']['total']
+        currLevel = char['json']['items'][slot]['tooltipParams']['upgrade']['current']
+        maxLevel = char['json']['items'][slot]['tooltipParams']['upgrade']['total']
         if (currLevel == maxLevel)
           data[lineNum] << currLevel
         else
-          itemLevel = json['items'][slot]['itemLevel']
+          itemLevel = char['json']['items'][slot]['itemLevel']
           increment = 4
           rawItemLevel = itemLevel - (currLevel * increment)
           if (itemLevels[rawItemLevel].nil?)
