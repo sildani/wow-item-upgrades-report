@@ -14,9 +14,11 @@ itemLevels = {
   559 => 'reg wf'
 }
 
-file = File.open("data/raiders.txt", "r")
-characters = file.read.split("\n")
-file.close
+characters = []
+Dir.foreach('data') do |item|
+  next if item == '.' or item == '..' or item.include? '_members'
+  characters << item[0..item.length-6]
+end
 
 slots = [
   'head',
