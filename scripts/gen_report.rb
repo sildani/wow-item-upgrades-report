@@ -3,6 +3,30 @@
 
 require 'json'
 
+guild = ARGV[0]
+if (!guild)
+  abort('Usage: gen_report.rb <guild>')
+end
+
+file = File.open("data/#{guild}_members.json", "r")
+json = JSON.parse(file.read)
+file.close
+characters = {}
+json['members'].each do |char|
+  charRank = char['rank']
+  if (charRank <= 6 && charRank != 2)
+    charName = char['character']['name']
+    file = File.open("data/#{charName}.json", "r")
+    charJson = JSON.parse(file.read)
+    file.close
+    characters[charName] = {
+      'name' => charName,
+      'rank' => charRank,
+      'json' => charJson
+    }
+  end
+end
+
 itemLevels = {
   496 => 'time',
   516 => 'h-scen',
@@ -13,12 +37,6 @@ itemLevels = {
   553 => 'reg',
   559 => 'reg wf'
 }
-
-characters = []
-Dir.foreach('data') do |item|
-  next if item == '.' or item == '..' or item.include? '_members' or item == '.gitignore'
-  characters << item[0..item.length-6]
-end
 
 slots = [
   'head',
@@ -42,17 +60,17 @@ slots = [
 lineNum = 1
 data = {}
 
-data[lineNum] = ['']
-slots.each {|s| data[1] << s.capitalize}
+data[lineNum] = ['','iLvl']
+slots.each {|s| data[lineNum] << s.capitalize}
 
-characters.each do |char|
-  puts char
+characters.each do |charName, char|
+  puts charName
   lineNum += 1
-  data[lineNum] = [char]
+  data[lineNum] = [charName]
 
-  file = File.open("data/#{char}.json", "r")
-  json = JSON.parse(file.read)
-  file.close
+  json = char['json']
+
+  data[lineNum] << json['items']['averageItemLevelEquipped']
 
   slots.each do |slot|
     if (json['items'][slot].nil?)

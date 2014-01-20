@@ -1,12 +1,12 @@
 The scripts in the scripts directory grab World of Warcraft (WoW) Armory data and generate a CSV formatted report of the upgrade status of the items for a given realm and guild.
 
-Create a data directory, then run:
+To start, get the data by running the following script:
 
 ruby scripts/get_data.rb <realm> <guild>
 
-To then generate the report from the data, create a directory named "output" then run:
+To then generate the report from the data, run:
 
-ruby scripts/gen_report.rb
+ruby scripts/gen_report.rb <guild>
 
 You must get the data before you can generate a report.
 
