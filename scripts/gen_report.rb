@@ -16,7 +16,7 @@ itemLevels = {
 
 characters = []
 Dir.foreach('data') do |item|
-  next if item == '.' or item == '..' or item.include? '_members'
+  next if item == '.' or item == '..' or item.include? '_members' or item == '.gitignore'
   characters << item[0..item.length-6]
 end
 
